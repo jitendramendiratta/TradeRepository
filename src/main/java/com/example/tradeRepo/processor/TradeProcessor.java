@@ -3,6 +3,8 @@ package com.example.tradeRepo.processor;
 import com.example.tradeRepo.datafabric.TradeDataFabricLayer;
 import com.example.tradeRepo.queue.TradeQueue;
 import com.example.tradeRepo.dataobject.Trade;
+import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import java.util.Optional;
 /**
  * This class is to process the incoming trades from Trade Queue.
  */
+@Getter
+@Setter
 public class TradeProcessor extends Thread{
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
 
@@ -33,44 +37,49 @@ public class TradeProcessor extends Thread{
                 while (true) {
                     int returnValue = 0;
                     Trade trade = tradeQueue.take();
-                    if (trade != null && trade.getTradeId() != 0) {
-                        logger.info("Processing Trade - {}",trade.getTradeId());
-                        Optional<Trade> exisingTrade = tradeDataFabricLayer.findbyid(trade.getTradeId());
-
-                        if (!isValidMaturityDate(trade)) {
-                            // bad maturity date
-                            logger.info("Skipping Trade - {} . Invalid maturity Date - {} ",trade.getTradeId(),trade.getMaturityDate());
-                            continue;
-                        }
-                        if (!exisingTrade.isPresent()) {
-                            // insert case
-                            logger.info("New Trade Received. Inserting Trade - {}",trade.getTradeId());
-                            returnValue = tradeDataFabricLayer.insert(trade);
-                        } else {
-                            if (isSameVersion(exisingTrade.get(), trade)) {
-                                logger.info("Trade amendment received for existing version. Updating Trade - {}, version -{}",trade.getTradeId(),trade.getVersion());
-                                tradeDataFabricLayer.update(trade);
-                                continue;
-                            }
-                            if (isNewerVersion(exisingTrade.get(), trade)) {
-                                // here means - its higher version and  need to insert
-                                logger.info("Trade amendment received with newer version. Inserting Trade - {}, version -{}",trade.getTradeId(),trade.getVersion());
-                                returnValue = tradeDataFabricLayer.insert(trade);
-                                continue;
-                            } else {
-                                // bad out of sequence
-                                // log and skip
-                                logger.info(" Out of sequence or Invalid trade received. Skipping Trade - {}, version -{}",trade.getTradeId(),trade.getVersion());
-                            }
-                        }
-
-                    }
+                    processTrade(trade);
                 }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
         }
 
+    }
+
+    public void processTrade(Trade trade) {
+        int returnValue;
+        if (trade != null && trade.getTradeId() != 0) {
+            logger.info("Processing Trade - {}",trade.getTradeId());
+            Optional<Trade> exisingTrade = getTradeDataFabricLayer().findbyid(trade.getTradeId());
+
+            if (!isValidMaturityDate(trade)) {
+                // bad maturity date
+                logger.info("Skipping Trade - {} . Invalid maturity Date - {} ",trade.getTradeId(),trade.getMaturityDate());
+                return;
+            }
+            if (!exisingTrade.isPresent()) {
+                // insert case
+                logger.info("New Trade Received. Inserting Trade - {}",trade.getTradeId());
+                returnValue = getTradeDataFabricLayer().insert(trade);
+            } else {
+                if (isSameVersion(exisingTrade.get(), trade)) {
+                    logger.info("Trade amendment received for existing version. Updating Trade - {}, version -{}",trade.getTradeId(),trade.getVersion());
+                    getTradeDataFabricLayer().update(trade);
+                    return;
+                }
+                if (isNewerVersion(exisingTrade.get(), trade)) {
+                    // here means - its higher version and  need to insert
+                    logger.info("Trade amendment received with newer version. Inserting Trade - {}, version -{}",trade.getTradeId(),trade.getVersion());
+                    returnValue = getTradeDataFabricLayer().insert(trade);
+                    return;
+                } else {
+                    // bad out of sequence
+                    // log and skip
+                    logger.info(" Out of sequence or Invalid trade received. Skipping Trade - {}, version -{}",trade.getTradeId(),trade.getVersion());
+                }
+            }
+
+        }
     }
 
     /**
@@ -114,4 +123,5 @@ public class TradeProcessor extends Thread{
         else
             return true;
     }
+
 }

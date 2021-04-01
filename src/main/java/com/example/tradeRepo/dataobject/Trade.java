@@ -28,7 +28,6 @@ public class Trade {
     String bookId; //alphanumeric
     @EqualsAndHashCode.Include
     Date maturityDate;
-    @EqualsAndHashCode.Include
     ZonedDateTime createdDate;
     @EqualsAndHashCode.Include
     boolean expired;

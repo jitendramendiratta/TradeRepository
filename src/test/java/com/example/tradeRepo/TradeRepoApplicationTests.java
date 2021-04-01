@@ -247,13 +247,19 @@ public class TradeRepoApplicationTests {
 
     @Test
     public void testTradeObject() {
+        DateFormat dateformatter = new SimpleDateFormat("yyyy-MM-dd");
+
         boolean success = false;
         Trade t = new Trade();
         t.setTradeId(1234);
         t.setVersion(0);
         t.setCounterPartyId("CP-1");
         t.setBookId("BK-1");
-        t.setMaturityDate(new java.util.Date());
+        try {
+            t.setMaturityDate(dateformatter.parse("2020-12-31"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         t.setCreatedDate(ZonedDateTime.now());
         t.setExpired(false);
 
@@ -262,11 +268,43 @@ public class TradeRepoApplicationTests {
         t2.setVersion(0);
         t2.setCounterPartyId("CP-1");
         t2.setBookId("BK-1");
-        t2.setMaturityDate(new java.util.Date());
+        try {
+            t2.setMaturityDate(dateformatter.parse("2020-12-31"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         t2.setCreatedDate(ZonedDateTime.now());
         t2.setExpired(false);
         success = t.equals(t2) && (t.hashCode()==t2.hashCode());
 
         assertThat(success).isTrue();
     }
+
+    @Test
+    public void testTradeProcessor() {
+        DateFormat dateformatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        int tradeid = 11234;
+        Trade t = new Trade();
+        t.setTradeId(tradeid);
+        t.setVersion(0);
+        t.setCounterPartyId("CP-1");
+        t.setBookId("BK-1");
+        try {
+            t.setMaturityDate(dateformatter.parse("2022-12-31"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        t.setCreatedDate(ZonedDateTime.now());
+        t.setExpired(false);
+
+        TradeProcessor tradeProcessor = new TradeProcessor();
+        tradeProcessor.setTradeDataFabricLayer(tradeDataFabricLayer);
+        tradeProcessor.processTrade(t);
+
+        Optional<Trade> tradeFromDB = tradeDataFabricLayer.findbyid(tradeid);
+
+        assertTrue(tradeFromDB.isPresent());
+    }
+
 }
