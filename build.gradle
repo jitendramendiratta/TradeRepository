@@ -14,6 +14,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'jacoco'
 
 group = 'com.gkatzioura.springbooth2'
 version = '0.0.1-SNAPSHOT'
@@ -33,4 +34,64 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.4'
 	annotationProcessor 'org.projectlombok:lombok:1.18.4'
 
+}
+// A resolvable configuration to collect source code
+def sourcesPath = configurations.create("sourcesPath") {
+	visible = false
+	canBeResolved = true
+	canBeConsumed = false
+	extendsFrom(configurations.implementation)
+	attributes {
+		attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage, Usage.JAVA_RUNTIME))
+		attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category, Category.DOCUMENTATION))
+		attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'source-folders'))
+	}
+}
+
+// A resolvable configuration to collect JaCoCo coverage data
+def coverageDataPath = configurations.create("coverageDataPath") {
+	visible = false
+	canBeResolved = true
+	canBeConsumed = false
+	extendsFrom(configurations.implementation)
+	attributes {
+		attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage, Usage.JAVA_RUNTIME))
+		attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category, Category.DOCUMENTATION))
+		attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, 'jacoco-coverage-data'))
+	}
+}
+
+// Task to gather code coverage from multiple subprojects
+def codeCoverageReport = tasks.register('codeCoverageReport', JacocoReport) {
+	additionalClassDirs(configurations.runtimeClasspath)
+	additionalSourceDirs(sourcesPath.incoming.artifactView { lenient(true) }.files)
+	executionData(coverageDataPath.incoming.artifactView { lenient(true) }.files.filter { it.exists() })
+
+	reports {
+		// xml is usually used to integrate code coverage with
+		// other tools like SonarQube, Coveralls or Codecov
+		xml.enabled true
+
+		// HTML reports can be used to see code coverage
+		// without any external tools
+		html.enabled true
+	}
+}
+
+tasks.named("jacocoTestReport") {
+	enabled = true
+}
+
+test {
+	finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.enabled false
+		csv.enabled false
+		html.destination file("${buildDir}/jacocoHtml")
+	}
 }

@@ -7,6 +7,9 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class is to map a result row to Trade object
+ */
 public class TradeRowMapper implements RowMapper<Trade> {
 
     @Override

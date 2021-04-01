@@ -26,6 +26,15 @@ public class TradeRepoApplication implements CommandLineRunner{
 		SpringApplication.run(TradeRepoApplication.class, args);
 	}
 
+	/**
+	 * This method creates the Provider thread to read trade data from csv file and
+	 * it also create processor thread to process the trades from the incoming queue.
+	 * Provider is configurable and we can plug in any new provider from properties file.
+	 * Similarly processor is also configurable so that it can be changed from properties file.
+	 *
+	 * @param args
+	 * @throws Exception
+	 */
 	@Override
 	public void run(String... args) throws Exception {
 		logger.info("Starting Trade Repo application....");

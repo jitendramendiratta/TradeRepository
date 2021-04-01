@@ -12,9 +12,11 @@ import org.springframework.core.io.ResourceLoader;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -22,15 +24,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * This class is to read the trade data from a csv file and publish to Trade queue
+ * which will be processed by Trade processor.
+ */
+
+
 public class FileDataProvider extends Thread implements DataProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
     @Autowired
-    ResourceLoader resourceLoader;
+    public ResourceLoader resourceLoader;
     @Autowired
-    TradeQueue tradeQueue;
+    public TradeQueue tradeQueue;
     @Autowired
-    private Environment env;
+    public Environment env;
 
     @Override
     public void run() {
@@ -57,46 +65,50 @@ public class FileDataProvider extends Thread implements DataProvider {
             Resource resource = resourceLoader.getResource("classpath:" + file);
             InputStream input = resource.getInputStream();
             File inputfile = resource.getFile();
-            FileReader reader = new FileReader(inputfile);
-            CSVReader csvReader = new CSVReader(reader);
-            String[] nextRecord;
-            while ((nextRecord = csvReader.readNext()) != null) {
-                Trade trade = new Trade();
-                for (int i = 0; i < nextRecord.length; i++) {
-                    switch (i) {
-                        case 0:
-                            trade.setTradeId(Integer.parseInt(nextRecord[i]));
-                            break;
-                        case 1:
-                            trade.setVersion(Integer.parseInt(nextRecord[i]));
-                            break;
-                        case 2:
-                            trade.setCounterPartyId(nextRecord[i]);
-                            break;
-
-                        case 3:
-                            trade.setBookId(nextRecord[i]);
-                            break;
-                        case 4:
-                            //trade.setMaturityDate(Date.of(LocalDateTime.of(LocalDate.parse(nextRecord[i], formatter), LocalTime.MAX), ZoneId.systemDefault()));
-                            trade.setMaturityDate(dateformatter.parse(nextRecord[i]));
-                            break;
-                        case 5:
-                            trade.setCreatedDate(ZonedDateTime.of(LocalDateTime.of(LocalDate.parse(nextRecord[i], dateTimeFormatter), LocalTime.now()), ZoneId.systemDefault()));
-                            break;
-                        case 6:
-                            trade.setExpired(Boolean.parseBoolean(nextRecord[i]));
-                            break;
-                        default:
-                            logger.error("Invalid token");
-                    }
-                }
-                tradeList.add(trade);
-            }
+            parseCSVToReadTrades(tradeList, dateTimeFormatter, dateformatter, inputfile);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return tradeList;
+    }
+
+    public static void parseCSVToReadTrades(List<Trade> tradeList, DateTimeFormatter dateTimeFormatter, DateFormat dateformatter, File inputfile) throws IOException, ParseException {
+        FileReader reader = new FileReader(inputfile);
+        CSVReader csvReader = new CSVReader(reader);
+        String[] nextRecord;
+        while ((nextRecord = csvReader.readNext()) != null) {
+            Trade trade = new Trade();
+            for (int i = 0; i < nextRecord.length; i++) {
+                switch (i) {
+                    case 0:
+                        trade.setTradeId(Integer.parseInt(nextRecord[i]));
+                        break;
+                    case 1:
+                        trade.setVersion(Integer.parseInt(nextRecord[i]));
+                        break;
+                    case 2:
+                        trade.setCounterPartyId(nextRecord[i]);
+                        break;
+
+                    case 3:
+                        trade.setBookId(nextRecord[i]);
+                        break;
+                    case 4:
+                        //trade.setMaturityDate(Date.of(LocalDateTime.of(LocalDate.parse(nextRecord[i], formatter), LocalTime.MAX), ZoneId.systemDefault()));
+                        trade.setMaturityDate(dateformatter.parse(nextRecord[i]));
+                        break;
+                    case 5:
+                        trade.setCreatedDate(ZonedDateTime.of(LocalDateTime.of(LocalDate.parse(nextRecord[i], dateTimeFormatter), LocalTime.now()), ZoneId.systemDefault()));
+                        break;
+                    case 6:
+                        trade.setExpired(Boolean.parseBoolean(nextRecord[i]));
+                        break;
+                    default:
+                        logger.error("Invalid token");
+                }
+            }
+            tradeList.add(trade);
+        }
     }
 
     @Override

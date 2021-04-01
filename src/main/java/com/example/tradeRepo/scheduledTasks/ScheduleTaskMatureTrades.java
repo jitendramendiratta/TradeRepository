@@ -13,16 +13,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+/**
+ * Scheduled Task that will mark matured trade as expired.
+ */
+
 @Component
 public class ScheduleTaskMatureTrades {
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
 
 
     @Autowired
-    TradeDataFabricLayer tradeDataFabricLayer;
+    public TradeDataFabricLayer tradeDataFabricLayer;
 
-    @Scheduled(cron = "0 50 22 * * ?")
-    public void matureTrades() {
+    /**
+     * This method will run at scheduled time and will mark EXPIRED=TRUE on matured trades.
+     * @return
+     */
+    @Scheduled(cron = "0 59 23 * * ?")
+    public int matureTrades() {
         logger.info("Starting job to mature trades");
         int counter = 0;
 
@@ -42,5 +50,7 @@ public class ScheduleTaskMatureTrades {
         }else{
             logger.info("No trades received to be updated");
         }
+        return counter;
+
     }
 }

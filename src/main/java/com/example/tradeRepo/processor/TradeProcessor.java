@@ -12,6 +12,9 @@ import java.util.Date;
 import java.util.Optional;
 
 
+/**
+ * This class is to process the incoming trades from Trade Queue.
+ */
 public class TradeProcessor extends Thread{
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
 
@@ -70,6 +73,12 @@ public class TradeProcessor extends Thread{
 
     }
 
+    /**
+     * this methods checks if newTrade has a higher version than oldTrade
+     * @param oldTrade
+     * @param newTrade
+     * @return
+     */
 
     public boolean isNewerVersion(Trade oldTrade, Trade newTrade) {
 
@@ -80,7 +89,12 @@ public class TradeProcessor extends Thread{
     }
 
 
-
+    /**
+     * This method checks if old and new trades have same version
+     * @param oldTrade
+     * @param newTrade
+     * @return
+     */
     public boolean isSameVersion(Trade oldTrade, Trade newTrade) {
         if(oldTrade.getVersion()==newTrade.getVersion())
             return true;
@@ -88,6 +102,11 @@ public class TradeProcessor extends Thread{
             return false;
     }
 
+    /**
+     * This method checks if trade has a valid maturity date
+     * @param newTrade
+     * @return
+     */
     public boolean isValidMaturityDate(Trade newTrade) {
 
         if( newTrade.getMaturityDate().before(new Date()))

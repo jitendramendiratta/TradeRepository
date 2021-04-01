@@ -14,6 +14,11 @@ import java.sql.Types;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This class is to provide access to database
+ *
+ */
+
 @Repository
 public class TradeDataFabricLayer {
 
@@ -33,6 +38,10 @@ public class TradeDataFabricLayer {
     @Autowired
     public JdbcTemplate jdbctemplate;
 
+    /**
+     * This method returns the list of trades which have been matured but have expired flag set as false.
+     * @return
+     */
     public Optional<List<Trade>> findMatureTrades() {
         List<Trade> tradeList = null;
         try {
@@ -44,6 +53,11 @@ public class TradeDataFabricLayer {
         return Optional.ofNullable(tradeList);
     }
 
+    /**
+     * This method returns the Trade from TRADE_REPO table for a given trade id.
+     * @param id
+     * @return
+     */
     public Optional<Trade> findbyid(long id) {
         Trade trade = null;
         try {
@@ -55,6 +69,11 @@ public class TradeDataFabricLayer {
         return Optional.ofNullable(trade);
     }
 
+    /**
+     * This method is to insert a trade object into TRADE_REPO
+     * @param trade
+     * @return
+     */
     public int insert(Trade trade) {
 
         return jdbctemplate.update("INSERT INTO trade_repo (trade_id,version,counterPartyId,bookId,maturityDate,createdDate,expired)  " +
@@ -62,6 +81,11 @@ public class TradeDataFabricLayer {
                 Util.toSQLDate(trade.getMaturityDate()), Util.toSQLTimeStamp(trade.getCreatedDate()), trade.isExpired());
     }
 
+    /**
+     * This method is to update an existing trade
+     * @param trade
+     * @return
+     */
     public int update(Trade trade) {
 
         Object[] params = {trade.getCounterPartyId(), trade.getBookId(),
