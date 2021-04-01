@@ -1,0 +1,13 @@
+CREATE TABLE trade_repo (trade_id INT, version INT,counterPartyId VARCHAR, bookId VARCHAR,maturityDate DATE, createdDate TIMESTAMP, expired BOOLEAN);
+INSERT INTO trade_repo (trade_id,version,counterPartyId,bookId,maturityDate,createdDate,expired)  values (11234,1,'CP-1','BK-1','2020-02-10',CURRENT_TIMESTAMP(),FALSE);
+INSERT INTO trade_repo (trade_id,version,counterPartyId,bookId,maturityDate,createdDate,expired)  values (11235,1,'CP-2','BK-2','2020-02-11',CURRENT_TIMESTAMP(),FALSE);
+INSERT INTO trade_repo (trade_id,version,counterPartyId,bookId,maturityDate,createdDate,expired)  values (11236,1,'CP-3','BK-3','2022-02-12',CURRENT_TIMESTAMP(),FALSE);
+INSERT INTO trade_repo (trade_id,version,counterPartyId,bookId,maturityDate,createdDate,expired)  values (11237,1,'CP-4','BK-4','2022-02-13',CURRENT_TIMESTAMP(),FALSE);
+INSERT INTO trade_repo (trade_id,version,counterPartyId,bookId,maturityDate,createdDate,expired)  values (11238,1,'CP-5','BK-5','2022-02-14',CURRENT_TIMESTAMP(),FALSE);
+INSERT INTO trade_repo (trade_id,version,counterPartyId,bookId,maturityDate,createdDate,expired)  values (11239,1,'CP-6','BK-6','2022-02-15',CURRENT_TIMESTAMP(),FALSE);
+INSERT INTO trade_repo (trade_id,version,counterPartyId,bookId,maturityDate,createdDate,expired)  values (11244,1,'CP-11','BK-11','2022-02-20',CURRENT_TIMESTAMP(),FALSE);
+INSERT INTO trade_repo (trade_id,version,counterPartyId,bookId,maturityDate,createdDate,expired)  values (11245,1,'CP-12','BK-12','2022-02-21',CURRENT_TIMESTAMP(),FALSE);
+INSERT INTO trade_repo (trade_id,version,counterPartyId,bookId,maturityDate,createdDate,expired)  values (11246,1,'CP-13','BK-13','2022-02-20',CURRENT_TIMESTAMP(),FALSE);
+INSERT INTO trade_repo (trade_id,version,counterPartyId,bookId,maturityDate,createdDate,expired)  values (11247,1,'CP-14','BK-14','2022-02-20',CURRENT_TIMESTAMP(),FALSE);
+INSERT INTO trade_repo (trade_id,version,counterPartyId,bookId,maturityDate,createdDate,expired)  values (11248,1,'CP-15','BK-15','2022-02-20',CURRENT_TIMESTAMP(),FALSE);
+INSERT INTO trade_repo (trade_id,version,counterPartyId,bookId,maturityDate,createdDate,expired)  values (11249,1,'CP-16','BK-16','2022-02-20',CURRENT_TIMESTAMP(),FALSE);
