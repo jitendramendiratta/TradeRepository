@@ -14,6 +14,14 @@ There are couples of validation, we need to provide in the above assignment
 2.	Store should not allow the trade which has less maturity date then today date.
 3.	Store should automatically update the expire flag if in a store the trade crosses the maturity date.
 
+### Solution
+* This solution is built using springboot and H2 database.
+* Provider thread will source the data using batch mode from a file and publish to a trade queue. 
+* Trade Processor thread will process the trades received from trade queue. It will apply the checks mentioned in the problem statement and will save/updates trades if they qualify the checks.
+* A scheduled Task will kick off every 23:59 hrs to find mature trades which have expired=false and will update the expired flag as true.
+* We can build multiple Provider and Processors & they can be configured using properties file.
+
+
 =====================================================================================
 ### How to set up and run project
 
