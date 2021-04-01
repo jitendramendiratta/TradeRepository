@@ -1,9 +1,9 @@
-package com.example.TradeRepo;
+package com.example.tradeRepo;
 
 
-import com.example.TradeRepo.datafabric.TradeDataFabricLayer;
-import com.example.TradeRepo.dataobject.Trade;
-import com.example.TradeRepo.processor.TradeProcessor;
+import com.example.tradeRepo.datafabric.TradeDataFabricLayer;
+import com.example.tradeRepo.dataobject.Trade;
+import com.example.tradeRepo.processor.TradeProcessor;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;

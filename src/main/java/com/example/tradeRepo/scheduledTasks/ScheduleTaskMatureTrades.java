@@ -1,12 +1,12 @@
-package com.example.TradeRepo.scheduledTasks;
+package com.example.tradeRepo.scheduledTasks;
 
 import java.lang.invoke.MethodHandles;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.TradeRepo.datafabric.TradeDataFabricLayer;
-import com.example.TradeRepo.dataobject.Trade;
+import com.example.tradeRepo.datafabric.TradeDataFabricLayer;
+import com.example.tradeRepo.dataobject.Trade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

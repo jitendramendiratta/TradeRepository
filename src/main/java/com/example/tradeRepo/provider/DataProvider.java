@@ -1,6 +1,6 @@
-package com.example.TradeRepo.provider;
+package com.example.tradeRepo.provider;
 
-import com.example.TradeRepo.dataobject.Trade;
+import com.example.tradeRepo.dataobject.Trade;
 
 import java.util.List;
 

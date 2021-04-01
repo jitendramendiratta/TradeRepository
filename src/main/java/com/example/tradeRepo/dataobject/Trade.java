@@ -1,7 +1,5 @@
-package com.example.TradeRepo.dataobject;
+package com.example.tradeRepo.dataobject;
 
-
-import jdk.nashorn.internal.objects.annotations.Getter;
 
 import java.time.ZonedDateTime;
 import java.util.Date;

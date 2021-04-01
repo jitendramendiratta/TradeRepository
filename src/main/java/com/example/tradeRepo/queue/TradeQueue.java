@@ -1,6 +1,6 @@
-package com.example.TradeRepo;
+package com.example.tradeRepo.queue;
 
-import com.example.TradeRepo.dataobject.Trade;
+import com.example.tradeRepo.dataobject.Trade;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.LinkedBlockingQueue;

@@ -1,7 +1,7 @@
-package com.example.TradeRepo;
+package com.example.tradeRepo;
 
-import com.example.TradeRepo.processor.TradeProcessor;
-import com.example.TradeRepo.provider.FileDataProvider;
+import com.example.tradeRepo.processor.TradeProcessor;
+import com.example.tradeRepo.provider.FileDataProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

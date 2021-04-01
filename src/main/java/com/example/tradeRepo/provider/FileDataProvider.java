@@ -1,7 +1,7 @@
-package com.example.TradeRepo.provider;
+package com.example.tradeRepo.provider;
 
-import com.example.TradeRepo.dataobject.Trade;
-import com.example.TradeRepo.TradeQueue;
+import com.example.tradeRepo.dataobject.Trade;
+import com.example.tradeRepo.queue.TradeQueue;
 import com.opencsv.CSVReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
