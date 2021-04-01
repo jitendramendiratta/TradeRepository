@@ -28,3 +28,5 @@ There are couples of validation, we need to provide in the above assignment
 * To Build the project :  ./gradlew build
 * To Run tests : ./gradlew test
 * To Generate Code coverage report : ./gradlew jacocoTestReport
+
+* Once application is running, you can check results from http://localhost:8080/h2-console/
