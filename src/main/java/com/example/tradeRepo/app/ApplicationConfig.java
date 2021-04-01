@@ -1,4 +1,4 @@
-package com.example.tradeRepo;
+package com.example.tradeRepo.app;
 
 import com.example.tradeRepo.processor.TradeProcessor;
 import com.example.tradeRepo.provider.FileDataProvider;
@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
@@ -13,6 +14,7 @@ import java.lang.invoke.MethodHandles;
 
 
 @Configuration
+@ComponentScan
 public class ApplicationConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());

@@ -5,11 +5,7 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.ToString;
 
 /**
@@ -18,16 +14,23 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Trade {
 
+    @EqualsAndHashCode.Include
     long tradeId;
+    @EqualsAndHashCode.Include
     int version;
+    @EqualsAndHashCode.Include
     String counterPartyId; // alphanumeric
+    @EqualsAndHashCode.Include
     String bookId; //alphanumeric
+    @EqualsAndHashCode.Include
     Date maturityDate;
+    @EqualsAndHashCode.Include
     ZonedDateTime createdDate;
+    @EqualsAndHashCode.Include
     boolean expired;
 
 }

@@ -245,4 +245,28 @@ public class TradeRepoApplicationTests {
 
     }
 
+    @Test
+    public void testTradeObject() {
+        boolean success = false;
+        Trade t = new Trade();
+        t.setTradeId(1234);
+        t.setVersion(0);
+        t.setCounterPartyId("CP-1");
+        t.setBookId("BK-1");
+        t.setMaturityDate(new java.util.Date());
+        t.setCreatedDate(ZonedDateTime.now());
+        t.setExpired(false);
+
+        Trade t2 = new Trade();
+        t2.setTradeId(1234);
+        t2.setVersion(0);
+        t2.setCounterPartyId("CP-1");
+        t2.setBookId("BK-1");
+        t2.setMaturityDate(new java.util.Date());
+        t2.setCreatedDate(ZonedDateTime.now());
+        t2.setExpired(false);
+        success = t.equals(t2) && (t.hashCode()==t2.hashCode());
+
+        assertThat(success).isTrue();
+    }
 }

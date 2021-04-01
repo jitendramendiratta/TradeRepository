@@ -33,10 +33,13 @@ import java.util.List;
 public class FileDataProvider extends Thread implements DataProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
+
     @Autowired
     public ResourceLoader resourceLoader;
+
     @Autowired
-    public TradeQueue tradeQueue;
+    TradeQueue tradeQueue;
+
     @Autowired
     public Environment env;
 
