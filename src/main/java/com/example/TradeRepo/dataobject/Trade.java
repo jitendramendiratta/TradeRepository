@@ -1,14 +1,19 @@
-package com.example.TradeRepo;
+package com.example.TradeRepo.dataobject;
+
+
+import jdk.nashorn.internal.objects.annotations.Getter;
 
 import java.time.ZonedDateTime;
 import java.util.Date;
 
 public class Trade {
+
     long tradeId;
     int version;
     String counterPartyId; // alphanumeric
     String bookId; //alphanumeric
     Date maturityDate;
+
     ZonedDateTime createdDate;
     boolean expired;
 

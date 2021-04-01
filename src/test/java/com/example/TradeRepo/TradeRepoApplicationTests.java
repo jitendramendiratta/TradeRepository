@@ -1,29 +1,21 @@
 package com.example.TradeRepo;
 
 
-import org.junit.Before;
+import com.example.TradeRepo.datafabric.TradeDataFabricLayer;
+import com.example.TradeRepo.dataobject.Trade;
+import com.example.TradeRepo.processor.TradeProcessor;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.sql.DataSource;
-import javax.validation.constraints.AssertTrue;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import java.util.Date;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,7 +25,7 @@ import static org.junit.Assert.assertTrue;
 public class TradeRepoApplicationTests {
 
 
-	private static  TradeDataFabricLayer tradeDataFabricLayer;
+	private static TradeDataFabricLayer tradeDataFabricLayer;
 	private TradeProcessor processor = new TradeProcessor();
 	private static EmbeddedDatabase db;
 

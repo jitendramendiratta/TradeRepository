@@ -1,5 +1,7 @@
-package com.example.TradeRepo;
+package com.example.TradeRepo.datafabric;
 
+import com.example.TradeRepo.dataobject.Trade;
+import com.example.TradeRepo.util.Util;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

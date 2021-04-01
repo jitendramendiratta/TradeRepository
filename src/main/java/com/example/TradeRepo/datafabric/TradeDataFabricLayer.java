@@ -1,5 +1,7 @@
-package com.example.TradeRepo;
+package com.example.TradeRepo.datafabric;
 
+import com.example.TradeRepo.dataobject.Trade;
+import com.example.TradeRepo.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +31,7 @@ public class TradeDataFabricLayer {
 
 
     @Autowired
-    JdbcTemplate jdbctemplate;
+    public JdbcTemplate jdbctemplate;
 
     public Optional<List<Trade>> findMatureTrades() {
         List<Trade> tradeList = null;

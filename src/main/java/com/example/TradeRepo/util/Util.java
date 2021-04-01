@@ -1,4 +1,4 @@
-package com.example.TradeRepo;
+package com.example.TradeRepo.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,11 +14,11 @@ public class Util {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getCanonicalName());
 
-    public static java.util.Date toJavaDate(java.sql.Date sqlDate){
-        return new java.util.Date(sqlDate.getTime());
+    public static Date toJavaDate(java.sql.Date sqlDate){
+        return new Date(sqlDate.getTime());
     }
 
-    public static java.sql.Date toSQLDate(java.util.Date date){
+    public static java.sql.Date toSQLDate(Date date){
         LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         int year  = localDate.getYear();
         int month = localDate.getMonthValue();
@@ -26,11 +26,11 @@ public class Util {
         return java.sql.Date.valueOf(LocalDate.of(year,month,day));
     }
 
-    public static ZonedDateTime toZonedDatetime(java.sql.Timestamp timestamp){
+    public static ZonedDateTime toZonedDatetime(Timestamp timestamp){
         return ZonedDateTime.ofInstant(timestamp.toInstant(), ZoneId.systemDefault());
     }
 
-    public static java.sql.Timestamp toSQLTimeStamp(ZonedDateTime zonedDateTime){
+    public static Timestamp toSQLTimeStamp(ZonedDateTime zonedDateTime){
         return Timestamp.from(zonedDateTime.toInstant());
     }
 }
